@@ -1,0 +1,41 @@
+***************************
+* Prerequisites for Setting Up the Development Environment *
+***************************
+Before setting up your development environment, ensure you have the following prerequisites installed on your system:
+1. **Operating System**:
+   - Windows 10 or later
+   - macOS Catalina or later
+   - A recent version of a popular Linux distribution (e.g., Ubuntu, Fedora)
+2. Python:
+   - Version 3.8 or later
+   - Download from: https://www.python.org/downloads/
+3. pip (Python package installer):
+   - Usually comes pre-installed with Python
+   - To check if pip is installed, run: `pip --version`
+   - If not installed, follow the instructions at: https://pip.pypa.io/en/stable/installation/
+4. pytest:
+   - Version 6.0 or later
+   - Install via pip: `pip install pytest`
+5. Git:
+   - Version 2.20 or later
+   - Download from: https://git-scm.com/downloads
+6. Virtual Environment (optional but recommended):
+    - Use `venv` module included with Python
+    - To create a virtual environment, run: `python -m venv myenv`
+    - Activate the virtual environment:
+      - On Windows: `myenv\Scripts\activate`
+      - On macOS/Linux: `source myenv/bin/activate`
+7. Code Editor or IDE:
+    - Recommended: Visual Studio Code, PyCharm, or any text editor of your choice
+8. Additional Python Packages:
+    - Depending on your project, you may need additional packages. Common ones include:
+        - requests: `pip install requests`
+        - numpy: `pip install numpy`
+        - pandas: `pip install pandas`
+Make sure to verify the installation of each prerequisite by checking their versions in the terminal or command prompt
+(e.g., `python --version`, `git --version`, `pytest --version`).
+Once all prerequisites are installed, you can proceed with setting up your development environment and starting your project
+. Happy coding!
+***************************
+* End of Prerequisites List *
+***************************
