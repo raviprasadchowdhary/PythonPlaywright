@@ -61,20 +61,27 @@ print("Cat-speak: ", cat.speak()) # Output: This animal makes a sound
 print("Cat-specialty: ", cat.specialty()) # Output: This animal is very agile
 
 # Polymorphism in Python
-class Bird:
-    def fly(self):
-        print("Bird is flying")
-class Airplane:
-    def fly(self):
-        print("Airplane is flying")
+# polymorphism is the ability to use a common interface for multiple forms (data types).
+# creating two classes with the same method name
+class Dog_Features:
+    def walk(self):
+        return str(self.__class__.__name__) , " walks on 4 legs"
+
+class Bird_Features:
+    def walk(self):
+        return str(self.__class__.__name__), " walks on 2 legs"
+
 # function that takes an object and calls its fly method
-def let_it_fly(flying_object):
-    flying_object.fly()
+def animal_walk(animal):
+    return animal.walk()
+
 # creating objects
-bird = Bird()
-airplane = Airplane()
-let_it_fly(bird)
-let_it_fly(airplane)
+dog_features = Dog_Features()
+bird_features = Bird_Features()
+
+# calling the walk method on different objects
+print(animal_walk(dog_features))
+print(animal_walk(bird_features))
 
 # Encapsulation in Python
 class BankAccount:
