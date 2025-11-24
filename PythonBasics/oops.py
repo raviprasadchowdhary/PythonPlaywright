@@ -124,7 +124,11 @@ print("Account2 balance after failed withdrawal: ", account2.get_balance())
 print(account1.__balance) # Uncommenting this line will raise an AttributeError
 
 # Abstraction in Python
-from abc import ABC, abstractmethod
+# abstract is a process of hiding the implementation details and showing only functionality to the user.
+# we can achieve abstraction using abstract classes and methods
+
+# here we are creating an abstract class Shape with an abstract method area
+from abc import ABC, abstractmethod # here abc is abstract base class, ABC is a module, abstractmethod is a decorator, we use it to define abstract methods, which are methods that have a declaration but do not have an implementation, we cannot create objects of abstract classes, we need to create a derived class that implements the abstract methods, then we can create objects of the derived class, and use the methods defined in the abstract class, we use abstraction to hide the complexity of the system and show only the essential features to the user
 class Shape(ABC):
     @abstractmethod
     def area(self):
