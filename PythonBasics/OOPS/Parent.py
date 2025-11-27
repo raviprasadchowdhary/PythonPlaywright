@@ -6,12 +6,15 @@ class BaseCarModel:
         self.year = year
 
     def display_info(self):
-        return f"Model: {self.model_name}; Year: {self.year}; Base price: ${BaseCarModel.price}"
+        return f"Model: {self.model_name}; Year: {self.year}"
+
+    def get_price(self):
+        return self.price
 
 # Example usage:
 car1 = BaseCarModel("Sedan LX", 2025)
 
-print(f"Base price of the car is: ${car1.price}")
-print(car1.display_info())
+print(f"Base price of the car is: ${car1.get_price()}")
+print(f"Car info: {car1.display_info()}")
 
 
