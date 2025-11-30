@@ -13,5 +13,11 @@ def test_handleChildWindowsAndTabs(page: Page):
         childPage = newPageInfo.value
 
     print(f"\nNewly opened page title is: {childPage.title()}")
-    print(f"\nRed content is: {childPage.locator(".red").text_content()}")
+    textContent = childPage.locator(".red").text_content()
+    print(f"\nRed content is: {textContent}")
+
+    emailId = textContent.split("at")[1].split("with")[0].strip()
+    print(f"\nExtracted email id is: {emailId}")
+    assert emailId == "mentor@rahulshettyacademy.com"
+
 
