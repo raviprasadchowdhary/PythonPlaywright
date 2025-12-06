@@ -1,4 +1,5 @@
 import time
+from time import sleep
 
 from playwright.sync_api import Page, expect
 
@@ -42,3 +43,9 @@ def test_validateTableContent(page:Page):
     price = page.locator("tr").filter(has_text="Rice").locator("td").nth(columnIndex).text_content()
     print(f"Price of Rice is: {price}")
     assert price == "37"
+
+def test_mouseHover(page: Page):
+    page.goto("https://rahulshettyacademy.com/AutomationPractice/")
+    # mouse hover to reveal hidden options
+    page.get_by_role("button", name="Mouse Hover").hover()
+    page.get_by_role("link", name="Top").click()
