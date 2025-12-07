@@ -1,6 +1,7 @@
 from playwright.sync_api import Playwright
 
-
+# *************************************************Functions************************************************************
+# here we are creating a reusable API request context
 def apiRequestContext(playwright: Playwright):
     return  playwright.request.new_context(base_url="https://rahulshettyacademy.com", ignore_https_errors=True)
 
@@ -21,9 +22,11 @@ def createOrder(playwright):
                                        , headers={"Authorization": getAuthToken(playwright)}
                                        , data=createOrderRequestBodyZaraCoat3)
 
+# *************************************************Variables************************************************************
 userEmail = "RahulKumar@gmail.com"
 userPassword = "Rahul@123"
 
+# ************************************************Request Body*********************************************************
 getAuthTokenRequestBody = {
     "userEmail": userEmail,
     "userPassword": userPassword
