@@ -2,8 +2,7 @@ from playwright.sync_api import Playwright
 
 
 def apiRequestContext(playwright: Playwright):
-    api_context =  playwright.request.new_context(base_url="https://rahulshettyacademy.com", ignore_https_errors=True)
-    return api_context
+    return  playwright.request.new_context(base_url="https://rahulshettyacademy.com", ignore_https_errors=True)
 
 def getAuthToken(playwright):
     api_context = apiRequestContext(playwright)
@@ -12,11 +11,10 @@ def getAuthToken(playwright):
     return response.json()["token"]
 
 def addToCartZaraCoat3(playwright):
-    response = apiRequestContext(playwright).post("/api/ecom/user/add-to-cart"
+    return apiRequestContext(playwright).post("/api/ecom/user/add-to-cart"
                                                   , data = addToCartRequestBodyZaraCoat3
                                                   , headers={"Authorization": getAuthToken(playwright)}
-                                                  )
-    return response
+                                              )
 
 
 userEmail = "RahulKumar@gmail.com"
@@ -44,5 +42,14 @@ addToCartRequestBodyZaraCoat3 = {
         "productAddedBy": "admin",
         "__v": 0
     }
+}
+
+createOrderRequestBodyZaraCoat3 = {
+    "orders": [
+        {
+            "country": "India",
+            "productOrderedId": "68a961459320a140fe1ca57a"
+        }
+    ]
 }
 
