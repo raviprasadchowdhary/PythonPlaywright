@@ -1,16 +1,26 @@
-from Playwright.API_Testing.helper import getAuthToken, addToCartZaraCoat3
+from Playwright.API_Testing.helper import *
 
 
 def test_getAuthToken(playwright):
-    print(f"Authentication token is: {getAuthToken(playwright)}")
+    authToken = getAuthToken(playwright)
+    print(f"Authentication token is: {authToken}")
 
-    assert getAuthToken(playwright) is not None
+    assert authToken is not None
 
 def test_addToCart(playwright):
     print(f"\nexecution of addToCart is started...")
-    print(f"Status code is: {addToCartZaraCoat3(playwright).status}")
-    print(f"\nResponse body is: \n{addToCartZaraCoat3(playwright).json()}")
+    response = addToCartZaraCoat3(playwright)
+    print(f"Status code is: {response.status}")
+    print(f"\nResponse body is: \n{response.json()}")
 
-    assert addToCartZaraCoat3(playwright).status == 200
-    assert addToCartZaraCoat3(playwright).json()["message"] == "Product Added To Cart"
+    assert response.status == 200
+    assert response.json()["message"] == "Product Added To Cart"
 
+def test_createOrder(playwright):
+    print(f"\nexecution of createOrder is started...")
+    response = createOrder(playwright)
+    print(f"\nStatus code is: {response.status}")
+    print(f"\nResponse body is: \n{response.json()}")
+
+    assert response.status == 201
+    assert response.json()["message"] == "Order Placed Successfully"
