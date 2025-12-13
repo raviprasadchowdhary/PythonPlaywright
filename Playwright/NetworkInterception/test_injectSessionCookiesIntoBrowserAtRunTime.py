@@ -1,5 +1,4 @@
-from playwright.sync_api import Playwright
-
+from playwright.sync_api import Playwright, expect
 from utils.apiBase import APIUtils
 
 
@@ -17,4 +16,5 @@ def test_injectSessionCookiesIntoBrowserAtRunTime(playwright: Playwright):
     page.add_init_script(f"""localStorage.setItem("token", "{token}")""")
 
     page.goto("https://rahulshettyacademy.com/client/#/dashboard/dash")
-
+    page.get_by_role("button", name="ORDERS").first.click()
+    expect(page.get_by_text("Your Orders")).to_be_visible()
