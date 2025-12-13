@@ -1,5 +1,3 @@
-import time
-
 from playwright.sync_api import Playwright
 
 from utils.apiBase import APIUtils
@@ -13,8 +11,8 @@ def test_injectSessionCookiesIntoBrowserAtRunTime(playwright: Playwright):
     # here we are getting the token by calling the API directly and then injecting that token into the browser's local storage
     # before navigating to the page. This way, we bypass the login process.
     # this is useful when we want to test pages that require authentication without going through the login UI.
-    apiUtils = APIUtils()
-    token = apiUtils.getToken(playwright)
+    api_utils = APIUtils()
+    token = api_utils.getToken(playwright)
     print(f"Token is: {token}")
     page.add_init_script(f"""localStorage.setItem("token", "{token}")""")
 
