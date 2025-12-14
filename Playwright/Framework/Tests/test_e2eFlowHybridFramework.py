@@ -3,6 +3,7 @@ import json
 import pytest
 from playwright.sync_api import Playwright, expect
 
+from Playwright.Framework.PageObjects.dashboardPage import DashboardPage
 from Playwright.Framework.PageObjects.loginPage import LoginPage
 from utils.apiBase import APIUtils
 
@@ -25,9 +26,8 @@ def test_e2eTest_createOrderAndVerify(playwright: Playwright, test_credentials_l
 
     orderId = APIUtils.createOrder(playwright, userCredentials=test_credentials_list)
 
-    OrderButton = page.get_by_role("button", name="Orders")
-    expect(OrderButton).to_be_visible()
-    OrderButton.click()
+    dashboardPage = DashboardPage(page)
+    dashboardPage.click_order_button()
 
     page.locator("tr").filter(has_text=orderId).get_by_role("button", name="View").click()
 
