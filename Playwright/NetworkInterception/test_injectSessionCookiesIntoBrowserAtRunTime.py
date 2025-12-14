@@ -12,10 +12,11 @@ def test_injectSessionCookiesIntoBrowserAtRunTime(playwright: Playwright):
     # before navigating to the page. This way, we bypass the login process.
     # this is useful when we want to test pages that require authentication without going through the login UI.
     api_utils = APIUtils()
-    token = api_utils.getToken(playwright)
+    token = api_utils.getToken(playwright, userCredentials={"username":"RahulChowdhary@gmail.com", "password": "Rahul@123"})
     print(f"Token is: {token}")
     page.add_init_script(f"""localStorage.setItem("token", "{token}")""")
 
     page.goto("https://rahulshettyacademy.com/client/#/dashboard/dash")
+    api_utils.createOrder(playwright, userCredentials={"username":"RahulChowdhary@gmail.com", "password": "Rahul@123"})
     page.get_by_role("button", name="ORDERS").first.click()
     expect(page.get_by_text("Your Orders")).to_be_visible()
