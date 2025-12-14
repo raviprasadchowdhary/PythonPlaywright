@@ -5,7 +5,7 @@ from playwright.sync_api import Playwright, expect
 
 from utils.apiBase import APIUtils
 
-with open("Playwright/Tests/Data/credentials.json") as f:
+with open("Playwright/Framework/Data/credentials.json") as f:
     test_data = json.load(f)
     test_credentials = test_data["credentials"]
 print(f"Test data loaded from json file: {test_data}")
