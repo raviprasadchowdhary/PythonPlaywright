@@ -1,3 +1,7 @@
+from Playwright.Framework.PageObjects import dashboardPage
+from Playwright.Framework.PageObjects.dashboardPage import DashboardPage
+
+
 class LoginPage:
     def __init__(self, page):
         self.page = page
@@ -10,3 +14,4 @@ class LoginPage:
         self.page.get_by_placeholder("email@example.com").fill(test_credentials_list["username"])
         self.page.get_by_placeholder("enter your passsword").fill(test_credentials_list["password"])
         self.page.get_by_role("button", name="Login").click()
+        return DashboardPage(self.page)
