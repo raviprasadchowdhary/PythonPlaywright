@@ -5,7 +5,7 @@ import pytest
 def test_credentials(request):
     return request.param
 
-def pytest_adoption(parser):
+def pytest_addoption(parser):
     parser.addoption(
         "--browser_name",
         action="store",
@@ -13,7 +13,7 @@ def pytest_adoption(parser):
         help="Browser name to run tests against (chromium, firefox, webkit)",
     )
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def browser_instance(playwright, request):
     browser_name = request.config.getoption("--browser_name")
 
@@ -31,4 +31,4 @@ def browser_instance(playwright, request):
 
     yield page
     context.close()
-    browser.quit()
+    browser.close()
