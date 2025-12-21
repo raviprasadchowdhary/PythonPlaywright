@@ -1,10 +1,11 @@
 import time
 
+import pytest
 from playwright.sync_api import Playwright
 
 from utils.apiBase import APIUtils
 
-
+@pytest.mark.smoke
 def test_createOrderAndVerify(playwright: Playwright):
     # setup
     browser = playwright.chromium.launch(headless=False)
