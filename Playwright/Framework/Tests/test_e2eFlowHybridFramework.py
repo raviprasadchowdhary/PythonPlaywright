@@ -6,7 +6,7 @@ from pytest_playwright.pytest_playwright import page
 
 from Playwright.Framework.PageObjects.common import Common
 from Playwright.Framework.PageObjects.loginPage import LoginPage
-from utils.apiBase import APIUtils
+from utils.apiBaseFramework import APIUtils
 
 with open("Playwright/Framework/Data/credentials.json") as f:
     test_data = json.load(f)
