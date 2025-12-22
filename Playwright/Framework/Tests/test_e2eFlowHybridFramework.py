@@ -2,9 +2,7 @@ import json
 
 import pytest
 from playwright.sync_api import Playwright, expect
-from pytest_playwright.pytest_playwright import page
 
-from Playwright.Framework.PageObjects.common import Common
 from Playwright.Framework.PageObjects.loginPage import LoginPage
 from utils.apiBaseFramework import APIUtils
 
