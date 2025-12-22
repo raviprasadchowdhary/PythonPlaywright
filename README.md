@@ -1,6 +1,8 @@
 # PythonPlaywright
 
-A comprehensive Python testing framework demonstrating **Playwright automation**, **API testing**, **E2E testing**, and **pytest fundamentals**. This project includes practical examples of browser automation, network interception, and test automation best practices.
+A comprehensive Python testing framework demonstrating **Playwright automation**, **API testing**, **E2E testing**, and
+**pytest fundamentals**. This project includes practical examples of browser automation, network interception, and test
+automation best practices.
 
 ## 📋 Table of Contents
 
@@ -15,6 +17,7 @@ A comprehensive Python testing framework demonstrating **Playwright automation**
 ## 🎯 Project Overview
 
 This repository is a learning resource and practical guide for:
+
 - **Playwright Testing**: Browser automation using Playwright Python SDK
 - **API Testing**: Automated testing of REST APIs
 - **E2E Testing**: End-to-end testing workflows combining UI and API
@@ -106,12 +109,14 @@ For detailed prerequisites, see [prerequisites.txt](prerequisites.txt)
 ## 🚀 Installation
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/yourusername/PythonPlaywright.git
 cd PythonPlaywright
 ```
 
 ### 2. Create and Activate Virtual Environment
+
 ```bash
 # Create virtual environment
 python -m venv venv
@@ -124,6 +129,7 @@ source venv/bin/activate
 ```
 
 ### 3. Install Dependencies
+
 ```bash
 pip install pytest playwright requests
 playwright install
@@ -134,7 +140,9 @@ For detailed setup instructions, refer to [prerequisites.txt](prerequisites.txt)
 ## 🧪 Project Sections
 
 ### 1. **Playwright Basics (part1)**
+
 Basic Playwright tests covering:
+
 - **Core Locators**: Using CSS selectors, role-based, and label-based locators
 - **Browser Navigation**: Different ways to navigate pages
 - **Browser Variants**: Testing with Firefox browser
@@ -142,6 +150,7 @@ Basic Playwright tests covering:
 - **Form Filling & Interactions**: Login flows and product cart operations
 
 **Example Test:**
+
 ```python
 # test_coreLocators.py - Demonstrates different locator strategies
 page.get_by_label("Username:").fill("username")
@@ -150,13 +159,16 @@ expect(page.get_by_text("Success")).to_be_visible()
 ```
 
 ### 2. **API Testing**
+
 Test REST API endpoints programmatically:
+
 - **Authentication**: Getting auth tokens
 - **CRUD Operations**: Creating, reading, updating, deleting resources
 - **Response Validation**: Verifying status codes and response bodies
 - **Test Flow**: Login → Add to Cart → Create Order
 
 **Example Test:**
+
 ```python
 # test_API.py - API endpoint testing
 authToken = getAuthToken(playwright)
@@ -166,13 +178,16 @@ assert response.json()["message"] == "Product Added To Cart"
 ```
 
 ### 3. **End-to-End Testing (E2E)**
+
 Hybrid E2E tests combining UI and API operations:
+
 - **Browser Launch**: Launching Chromium browser
 - **UI Interactions**: Login through the web interface
 - **API Integration**: Creating orders via API
 - **Verification**: Validating results through UI
 
 **Example Flow:**
+
 ```
 1. Launch browser
 2. Navigate to login page
@@ -183,7 +198,9 @@ Hybrid E2E tests combining UI and API operations:
 ```
 
 ### 4. **Testing Framework (Advanced)**
+
 A structured testing framework using **Page Object Model (POM)**:
+
 - **LoginPage**: Handles authentication
 - **DashboardPage**: Dashboard interactions
 - **OrdersPage**: Order management
@@ -191,19 +208,23 @@ A structured testing framework using **Page Object Model (POM)**:
 - **Test Data**: JSON-driven test cases with parametrization
 
 **Benefits:**
+
 - Maintainable code with separation of concerns
 - Reusable page objects
 - Parametrized tests with multiple credentials
 - Centralized test data management
 
 ### 5. **Network Interception**
+
 Advanced Playwright features for network manipulation:
+
 - **Session Cookie Injection**: Bypassing login by injecting auth tokens
 - **Network Mocking**: Intercepting and modifying requests
 - **Response Mocking**: Simulating API responses
 - **Unauthorized Access Testing**: Handling authentication scenarios
 
 **Example Use Case:**
+
 ```python
 # Inject session token to skip login
 api_utils = APIUtils()
@@ -213,7 +234,9 @@ page.goto("dashboard-url")  # No login needed!
 ```
 
 ### 6. **Pytest Basics**
+
 Understanding pytest framework and best practices:
+
 - **Fixtures**: Function, module, class, and session-scoped fixtures
 - **Conftest**: Shared configurations across tests
 - **Setup/Teardown**: Test initialization and cleanup
@@ -221,6 +244,7 @@ Understanding pytest framework and best practices:
 - **Scope Management**: Understanding fixture lifecycles
 
 **Example Fixture:**
+
 ```python
 # conftest.py - Fixture with setup and teardown
 @pytest.fixture(scope="module")
@@ -231,7 +255,9 @@ def setup_module():
 ```
 
 ### 7. **Python Basics**
+
 Foundational Python concepts:
+
 - **Data Types**: Integers, floats, strings, booleans, complex numbers
 - **Collections**: Lists, tuples, dictionaries
 - **Control Flow**: If/elif/else, for loops, while loops
@@ -242,11 +268,13 @@ Foundational Python concepts:
 ## ▶️ Running Tests
 
 ### Run All Tests
+
 ```bash
 pytest
 ```
 
 ### Run Specific Directory
+
 ```bash
 pytest Playwright/part1/
 pytest Playwright/API_Testing/
@@ -254,32 +282,38 @@ pytest Playwright/Framework/Tests/
 ```
 
 ### Run Specific Test File
+
 ```bash
 pytest Playwright/part1/test_coreLocators.py
 ```
 
 ### Run Specific Test
+
 ```bash
 pytest Playwright/part1/test_coreLocators.py::test_core_locators
 ```
 
 ### Run with Verbose Output
+
 ```bash
 pytest -v
 ```
 
 ### Run with Detailed Output
+
 ```bash
 pytest -vv -s
 ```
 
 ### Run Playwright Tests with Headed Browser
+
 ```bash
 # Tests run with visible browser (not headless)
 pytest Playwright/E2E/ -v
 ```
 
 ### Generate HTML Report
+
 ```bash
 pip install pytest-html
 pytest --html=report.html --self-contained-html
@@ -288,24 +322,28 @@ pytest --html=report.html --self-contained-html
 ## 🌟 Key Features
 
 ✅ **Multiple Testing Approaches**
+
 - Unit testing with Playwright
 - API testing with requests
 - End-to-end testing combining UI and API
 - Network interception and mocking
 
 ✅ **Best Practices**
+
 - Page Object Model for maintainability
 - Parametrized tests for multiple scenarios
 - Fixture-based test setup/teardown
 - Centralized test data management
 
 ✅ **Advanced Concepts**
+
 - Browser automation with different browsers
 - Network mocking and request interception
 - Session management and authentication
 - API token injection into browser context
 
 ✅ **Comprehensive Coverage**
+
 - Python fundamentals to advanced concepts
 - Pytest framework understanding
 - Real-world testing scenarios
@@ -314,15 +352,18 @@ pytest --html=report.html --self-contained-html
 ## 📚 Learning Path
 
 **Beginners:**
+
 1. Start with `PythonBasics/` to understand Python fundamentals
 2. Move to `PytestBasics/` to learn pytest framework
 3. Explore `Playwright/part1/` for basic browser automation
 
 **Intermediate:**
+
 4. Study `Playwright/Framework/` to understand Page Object Model
 5. Work through `Playwright/E2E/` for end-to-end scenarios
 
 **Advanced:**
+
 6. Dive into `Playwright/NetworkInterception/` for advanced features
 7. Explore `Playwright/API_Testing/` for API automation
 8. Analyze the hybrid approach in `test_e2eFlowHybridFramework.py`
@@ -330,6 +371,7 @@ pytest --html=report.html --self-contained-html
 ## 🔗 Test Website
 
 Most tests interact with:
+
 - **URL**: https://rahulshettyacademy.com/
 - **Practice Site**: Login page and e-commerce platform for learning
 
@@ -352,6 +394,7 @@ Most tests interact with:
 ## 🤝 Contributing
 
 Feel free to enhance this project by:
+
 - Adding more test examples
 - Improving documentation
 - Adding new automation scenarios

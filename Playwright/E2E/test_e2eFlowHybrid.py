@@ -1,5 +1,3 @@
-import time
-
 import pytest
 from playwright.sync_api import Playwright
 
@@ -29,4 +27,3 @@ def test_createOrderAndVerify(playwright: Playwright):
 
     page.locator("tr").filter(has_text=orderId).get_by_role("button", name="View").click()
 
-    time.sleep(2)

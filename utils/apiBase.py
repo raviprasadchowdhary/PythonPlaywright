@@ -14,7 +14,7 @@ createOrderRequestBody = {
 
 class APIUtils:
     @staticmethod
-    def getToken(playwright: Playwright,):
+    def getToken(playwright: Playwright, ):
         api_request_context = playwright.request.new_context(base_url="https://rahulshettyacademy.com",
                                                              ignore_https_errors=True)
         response = api_request_context.post(url="/api/ecom/auth/login"

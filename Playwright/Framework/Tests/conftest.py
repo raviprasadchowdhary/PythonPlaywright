@@ -5,6 +5,7 @@ import pytest
 def test_credentials(request):
     return request.param
 
+
 def pytest_addoption(parser):
     parser.addoption(
         "--browser_name",
@@ -12,6 +13,7 @@ def pytest_addoption(parser):
         default="chrome",
         help="Browser name to run tests against (chromium, firefox, webkit)",
     )
+
 
 @pytest.fixture(scope="function")
 def browser_instance(playwright, request):

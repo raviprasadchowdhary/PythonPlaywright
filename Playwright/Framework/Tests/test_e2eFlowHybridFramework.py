@@ -11,6 +11,7 @@ with open("Playwright/Framework/Data/credentials.json") as f:
     test_credentials = test_data["credentials"]
 print(f"Test data loaded from json file: {test_data}")
 
+
 @pytest.mark.smoke
 @pytest.mark.e2e
 @pytest.mark.parametrize("test_credentials_list", test_credentials)
