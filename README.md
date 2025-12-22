@@ -2,7 +2,7 @@
 
 A comprehensive Python testing framework demonstrating **Playwright automation**, **API testing**, **E2E testing**, and
 **pytest fundamentals**. This project includes practical examples of browser automation, network interception, and test
-automation best practices.
+automation best practices with a focus on real-world testing scenarios.
 
 ## 📋 Table of Contents
 
@@ -13,6 +13,8 @@ automation best practices.
 - [Project Sections](#project-sections)
 - [Running Tests](#running-tests)
 - [Key Features](#key-features)
+- [Learning Path](#learning-path)
+- [Test Website](#test-website)
 
 ## 🎯 Project Overview
 
@@ -141,129 +143,351 @@ For detailed setup instructions, refer to [prerequisites.txt](prerequisites.txt)
 
 ### 1. **Playwright Basics (part1)**
 
-Basic Playwright tests covering:
+Basic Playwright tests covering core automation concepts:
 
-- **Core Locators**: Using CSS selectors, role-based, and label-based locators
-- **Browser Navigation**: Different ways to navigate pages
-- **Browser Variants**: Testing with Firefox browser
-- **Window/Tab Handling**: Managing multiple windows and tabs
-- **Form Filling & Interactions**: Login flows and product cart operations
+- **Core Locators** (`test_coreLocators.py`): CSS selectors, role-based, and label-based locators
+- **Browser Navigation** (`test_differentWaysToGoToPage.py`): Different approaches to navigate pages (manual vs. fixture-based)
+- **Browser Variants** (`test_firefoxBrowser.py`): Testing with Firefox browser instead of Chromium
+- **Window/Tab Handling** (`test_handleChildWindowsAndTabs.py`): Managing multiple windows, tabs, and child pages
+- **Form Filling & Interactions** (`test_loginAndAddProductsToCart.py`): Login flows and adding products to cart
+
+**Key Techniques:**
+- Using Playwright's built-in page fixture for automatic browser management
+- Locating elements by role, label, and CSS selectors
+- Handling dynamic content and assertions with `expect()`
+- Extracting text content from elements
 
 **Example Test:**
 
 ```python
 # test_coreLocators.py - Demonstrates different locator strategies
-page.get_by_label("Username:").fill("username")
+page.get_by_label("Username:").fill("rahulshettyacademy")
+page.get_by_role("combobox").select_option("consult")
 page.get_by_role("button", name="Sign In").click()
-expect(page.get_by_text("Success")).to_be_visible()
+expect(page.get_by_text("Incorrect username/password.")).to_be_visible()
 ```
 
-### 2. **API Testing**
+### 2. **Advanced Validations (Part2)**
 
-Test REST API endpoints programmatically:
+Advanced testing scenarios and validations:
 
-- **Authentication**: Getting auth tokens
-- **CRUD Operations**: Creating, reading, updating, deleting resources
-- **Response Validation**: Verifying status codes and response bodies
-- **Test Flow**: Login → Add to Cart → Create Order
+- **Placeholder Locators**: Testing elements with placeholder attributes
+- **Dialog/Alert Handling**: Handling JavaScript alerts and confirm dialogs
+- **Iframe Handling**: Working with iframes and frames within pages
+- **Table Content Validation**: Verifying table data and content
+- **Multiple Test Scenarios**: Various validation techniques for complex UI interactions
+
+**Example Test:**
+
+```python
+# test_moreValidations.py - Handling dialogs and iframes
+page.on("dialog", lambda dialog: dialog.accept())
+page.get_by_role("button", name="Confirm").click()
+
+# Working with iframes
+frame = page.frame_locator("#courses-iframe")
+frame.locator("a").nth(0).click()
+```
+
+### 3. **API Testing**
+
+REST API testing using Playwright's request context:
+
+- **Authentication**: Getting auth tokens via login API
+- **CRUD Operations**: Creating orders, adding to cart via API endpoints
+- **Response Validation**: Verifying status codes, response bodies, and message content
+- **Reusable Helpers**: API helper functions for common operations
+
+**Files:**
+- `test_API.py`: API test cases for authentication, cart operations, and order creation
+- `helper.py`: Reusable API request context and helper functions
+
+**Key Operations:**
+- `getAuthToken()`: Authenticate and retrieve auth token
+- `addToCartZaraCoat3()`: Add specific product to cart
+- `createOrder()`: Create order and get order ID
 
 **Example Test:**
 
 ```python
 # test_API.py - API endpoint testing
-authToken = getAuthToken(playwright)
-response = addToCartZaraCoat3(playwright)
-assert response.status == 200
-assert response.json()["message"] == "Product Added To Cart"
+def test_getAuthToken(playwright):
+    authToken = getAuthToken(playwright)
+    assert authToken is not None
+
+def test_createOrder(playwright):
+    response = createOrder(playwright)
+    assert response.status == 201
+    assert response.json()["message"] == "Order Placed Successfully"
 ```
 
-### 3. **End-to-End Testing (E2E)**
+### 4. **End-to-End Testing (E2E)**
 
-Hybrid E2E tests combining UI and API operations:
+Hybrid E2E tests combining UI interactions with API operations:
 
-- **Browser Launch**: Launching Chromium browser
-- **UI Interactions**: Login through the web interface
-- **API Integration**: Creating orders via API
-- **Verification**: Validating results through UI
+- **Manual Flow** (`test_e2eFlowHybrid.py`): Manual browser setup with API integration
+- **Login via UI**: Authenticating through web interface
+- **API Integration**: Creating orders via API after login
+- **Verification**: Validating orders appear in the UI
 
 **Example Flow:**
 
 ```
-1. Launch browser
+1. Launch Chromium browser (non-headless for visibility)
 2. Navigate to login page
-3. Fill credentials and login
-4. Create order via API call
-5. Verify order appears in UI
-6. Cleanup
+3. Fill credentials and authenticate via UI
+4. Create order using API call
+5. Navigate to Orders page
+6. Verify order ID matches the one created via API
+7. Click View to see order details
 ```
 
-### 4. **Testing Framework (Advanced)**
+**Key Assertions:**
+```python
+assert orderId == page.locator("tbody tr th").nth(0).text_content()
+```
 
-A structured testing framework using **Page Object Model (POM)**:
+### 5. **Testing Framework (Advanced)**
 
-- **LoginPage**: Handles authentication
-- **DashboardPage**: Dashboard interactions
-- **OrdersPage**: Order management
-- **APIUtils**: Shared API utilities
-- **Test Data**: JSON-driven test cases with parametrization
+A production-ready testing framework using **Page Object Model (POM)**:
 
-**Benefits:**
+**Structure:**
+- **PageObjects/**: Reusable page object classes
+  - `common.py`: Common utilities for browser creation
+  - `loginPage.py`: Login page interactions
+  - `dashboardPage.py`: Dashboard operations
+  - `ordersPage.py`: Orders page interactions
+- **Tests/**: Test files using the framework
+  - `test_e2eFlowHybridFramework.py`: E2E test with parametrized credentials
+- **Data/**: Test data in JSON format
+  - `credentials.json`: Multiple user credentials for parametrized tests
+- **conftest.py**: Pytest configuration and fixtures
 
-- Maintainable code with separation of concerns
-- Reusable page objects
-- Parametrized tests with multiple credentials
-- Centralized test data management
-
-### 5. **Network Interception**
-
-Advanced Playwright features for network manipulation:
-
-- **Session Cookie Injection**: Bypassing login by injecting auth tokens
-- **Network Mocking**: Intercepting and modifying requests
-- **Response Mocking**: Simulating API responses
-- **Unauthorized Access Testing**: Handling authentication scenarios
-
-**Example Use Case:**
+**Page Object Classes:**
 
 ```python
-# Inject session token to skip login
+# LoginPage - Handles authentication
+class LoginPage:
+    def __init__(self, page):
+        self.page = page
+    
+    def navigate(self):
+        self.page.goto("https://rahulshettyacademy.com/client")
+    
+    def login(self, test_credentials_list):
+        self.page.get_by_placeholder("email@example.com").fill(test_credentials_list["username"])
+        self.page.get_by_placeholder("enter your passsword").fill(test_credentials_list["password"])
+        self.page.get_by_role("button", name="Login").click()
+        return DashboardPage(self.page)
+
+# DashboardPage - Dashboard interactions
+class DashboardPage:
+    def __init__(self, page):
+        self.page = page
+    
+    def click_order_button(self):
+        self.page.get_by_role("button", name="Orders").click()
+        return OrdersPage(self.page)
+
+# OrdersPage - Order management
+class OrdersPage:
+    def clickViewByOrderId(self, orderId):
+        self.page.locator("tr").filter(has_text=orderId).get_by_role("button", name="View").click()
+```
+
+**Test Data (credentials.json):**
+```json
+{
+  "credentials": [
+    {
+      "username": "RahulChowdhary@gmailc.om",
+      "password": "Rahul@123"
+    },
+    {
+      "username": "RohanChowdhary@gmailc.om",
+      "password": "Rohan@123"
+    }
+  ]
+}
+```
+
+**Parametrized Test:**
+```python
+@pytest.mark.smoke
+@pytest.mark.e2e
+@pytest.mark.parametrize("test_credentials_list", test_credentials)
+def test_e2eTest_createOrderAndVerify(playwright, browser_instance, test_credentials_list):
+    # Create order via API
+    orderId = APIUtils.createOrder(playwright, userCredentials=test_credentials_list)
+    
+    # Verify in UI
+    loginPage = LoginPage(browser_instance)
+    loginPage.navigate()
+    dashboardPage = loginPage.login(test_credentials_list)
+    orderDetailsPage = dashboardPage.click_order_button()
+    orderDetailsPage.clickViewByOrderId(orderId)
+    
+    expect(browser_instance.locator(".tagline")).to_have_text("Thank you for Shopping With Us")
+```
+
+**Benefits:**
+- Maintainable code with separation of concerns
+- Reusable page objects across multiple tests
+- Parametrized tests for multiple user scenarios
+- Centralized test data management
+- Custom pytest fixtures for browser configuration
+
+### 6. **Network Interception & Advanced Features**
+
+Advanced Playwright capabilities for network manipulation and testing:
+
+**Session Cookie Injection** (`test_injectSessionCookiesIntoBrowserAtRunTime.py`):
+- Bypassing login by injecting auth tokens into browser storage
+- Useful for testing authenticated pages without UI login
+- Saves time by skipping login UI for each test
+
+```python
 api_utils = APIUtils()
 token = api_utils.getToken(playwright, userCredentials=credentials)
 page.add_init_script(f'localStorage.setItem("token", "{token}")')
-page.goto("dashboard-url")  # No login needed!
+page.goto("https://rahulshettyacademy.com/client/#/dashboard/dash")
 ```
 
-### 6. **Pytest Basics**
-
-Understanding pytest framework and best practices:
-
-- **Fixtures**: Function, module, class, and session-scoped fixtures
-- **Conftest**: Shared configurations across tests
-- **Setup/Teardown**: Test initialization and cleanup
-- **Parametrization**: Running tests with multiple inputs
-- **Scope Management**: Understanding fixture lifecycles
-
-**Example Fixture:**
+**Request Mocking** (`test_networkInterception_mockRequest_unauthorizedAccess.py`):
+- Intercepting and modifying HTTP requests
+- Testing unauthorized access scenarios
+- Simulating different API responses
 
 ```python
-# conftest.py - Fixture with setup and teardown
-@pytest.fixture(scope="module")
-def setup_module():
-    print("Setting up module")
-    yield
-    print("Tearing down module")
+def interceptRequest(route):
+    route.continue_(url="https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id=6937107f32ed86587126a601")
+
+page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-details?id=*", interceptRequest)
 ```
 
-### 7. **Python Basics**
+**Response Mocking** (`test_networkInterception_mockresponse_noOrders.py`):
+- Intercepting and replacing API responses
+- Testing UI behavior with mocked data
+- Simulating "no orders" or other empty states
 
-Foundational Python concepts:
+```python
+def interceptResponse(route):
+    route.fulfill(json={"data": [], "message": "No Orders"})
 
-- **Data Types**: Integers, floats, strings, booleans, complex numbers
-- **Collections**: Lists, tuples, dictionaries
-- **Control Flow**: If/elif/else, for loops, while loops
-- **Functions**: Defining and calling functions
-- **File Operations**: Reading and writing files
-- **OOPS**: Classes, inheritance, polymorphism
+page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*", interceptResponse)
+```
+
+### 7. **Pytest Basics & Fixtures**
+
+Understanding pytest framework and fixture scopes:
+
+**Files:**
+- `ConfTest/conftest.py`: Demonstrates all fixture scopes
+- `ConfTest/test_pyTestValidation1.py`: Tests using fixtures
+- `ConfTest/test_pyTestValidation2.py`: Additional fixture examples
+- `FixtureFunctionModule/`: Examples of function and module-scoped fixtures
+
+**Fixture Scopes:**
+
+```python
+# conftest.py - Different fixture scopes
+
+@pytest.fixture(scope="session")
+def setup_session():
+    print("\nSetup: Executing before the test session")
+    yield
+    print("\nTeardown: Executing after the test session")
+
+@pytest.fixture(scope="module")
+def setup_module():
+    print("\nSetup: Executing before the test module")
+    yield
+    print("\nTeardown: Executing after the test module")
+
+@pytest.fixture(scope="function")
+def setup_function():
+    print("\nSetup: Executing before each test function")
+    yield
+    print("\nTeardown: Executing after each test function")
+
+@pytest.fixture(scope="class")
+def setup_class():
+    print("\nSetup: Executing before the test class")
+    yield
+    print("\nTeardown: Executing after the test class")
+```
+
+**Test Usage:**
+```python
+def test_validation1(setup_session, setup_module, setup_function):
+    print("Executing test validation1")
+    assert True
+
+class TestValidationClass:
+    def test_validation3(self, setup_class):
+        print("Executing test validation3")
+        assert True
+```
+
+**Fixture Features:**
+- Setup and teardown logic
+- Resource initialization and cleanup
+- Scope management (session, module, function, class)
+- Fixture dependency injection
+- Parametrization with fixtures
+
+### 8. **Python Fundamentals**
+
+Core Python concepts and OOPS principles:
+
+**Data Types** (`DataTypes/`):
+- Integers, floats, complex numbers, booleans
+- Strings and their operations
+- Lists, tuples, and dictionaries
+- Type conversions and operations
+
+**Control Flow** (`Loops/`):
+- If/elif/else conditional statements
+- For loops and iteration
+- While loops and loop control
+- Break, continue, and pass statements
+
+**Functions** (`Functions/`):
+- Function definition and calling
+- Parameters and arguments
+- Return values
+- Scope and namespaces
+
+**File Operations** (`FileOperations/`):
+- Reading files
+- Writing files
+- File handling best practices
+- Working with different file formats
+
+**Object-Oriented Programming** (`OOPS/`):
+- Classes and objects
+- Inheritance and polymorphism
+- Encapsulation
+- Method overriding
+- Parent-child class relationships
+
+**String Operations** (`String/`):
+- String creation and manipulation
+- String methods and formatting
+- Regular expressions basics
+- String indexing and slicing
+
+## 🛠️ Utilities
+
+**API Utilities:**
+- `utils/apiBase.py`: Basic API utilities with hardcoded credentials
+- `utils/apiBaseFramework.py`: Framework-friendly API utilities with parameterized credentials
+
+**APIUtils Features:**
+- `getToken()`: Retrieve authentication token
+- `createOrder()`: Create orders via API
+- Integration with Playwright's request context
+- Support for parametrized user credentials
 
 ## ▶️ Running Tests
 
@@ -351,22 +575,75 @@ pytest --html=report.html --self-contained-html
 
 ## 📚 Learning Path
 
-**Beginners:**
+This project is organized from beginner to advanced concepts. Follow this progression:
 
-1. Start with `PythonBasics/` to understand Python fundamentals
-2. Move to `PytestBasics/` to learn pytest framework
-3. Explore `Playwright/part1/` for basic browser automation
+**Phase 1: Python Fundamentals (PythonBasics/)**
 
-**Intermediate:**
+Start here if you're new to Python:
+1. `DataTypes/` - Understand integers, floats, strings, lists, tuples, dictionaries
+2. `Loops/` - Learn if/elif/else, for loops, while loops
+3. `Functions/` - Master function definitions and calls
+4. `String/` - String manipulation and methods
+5. `FileOperations/` - File I/O operations
+6. `OOPS/` - Classes, inheritance, and polymorphism concepts
 
-4. Study `Playwright/Framework/` to understand Page Object Model
-5. Work through `Playwright/E2E/` for end-to-end scenarios
+**Phase 2: Pytest Framework (PytestBasics/)**
 
-**Advanced:**
+Understanding testing framework:
+1. `ConfTest/conftest.py` - Learn about pytest fixtures and configurations
+2. `ConfTest/test_pyTestValidation1.py` - Fixtures in action with different scopes
+3. `FixtureFunctionModule/` - Understand function and module-scoped fixtures
+4. Understand fixture lifecycle, setup/teardown patterns
 
-6. Dive into `Playwright/NetworkInterception/` for advanced features
-7. Explore `Playwright/API_Testing/` for API automation
-8. Analyze the hybrid approach in `test_e2eFlowHybridFramework.py`
+**Phase 3: Playwright Basics (Playwright/part1/)**
+
+Learn browser automation fundamentals:
+1. `test_coreLocators.py` - Master different locator strategies (role, label, CSS)
+2. `test_differentWaysToGoToPage.py` - Understand fixture-based page management vs manual setup
+3. `test_firefoxBrowser.py` - Launch and use different browser engines
+4. `test_handleChildWindowsAndTabs.py` - Handle multiple windows and tabs
+5. `test_loginAndAddProductsToCart.py` - Real-world form filling and interactions
+
+**Phase 4: Advanced Validations (Playwright/Part2/)**
+
+Master advanced testing scenarios:
+1. `test_moreValidations.py` - Placeholder locators, dialogs, iframes, table validation
+2. Learn handling JavaScript dialogs and confirm buttons
+3. Master iframe/frame navigation
+
+**Phase 5: API Testing (Playwright/API_Testing/)**
+
+Automated API testing:
+1. `helper.py` - Understand helper functions and API request context
+2. `test_API.py` - Test authentication, cart operations, order creation
+3. Learn API status code validation
+4. Master response body assertions
+
+**Phase 6: End-to-End Testing (Playwright/E2E/)**
+
+Combining UI and API:
+1. `test_e2eFlowHybrid.py` - Manual E2E flow: UI login + API order creation
+2. Understand the hybrid approach
+3. Learn assertion and verification in E2E tests
+
+**Phase 7: Testing Framework with POM (Playwright/Framework/)**
+
+Production-ready testing patterns:
+1. `PageObjects/common.py` - Browser and context creation utilities
+2. `PageObjects/loginPage.py` - Page object for login interactions
+3. `PageObjects/dashboardPage.py` - Dashboard page object
+4. `PageObjects/ordersPage.py` - Orders page object
+5. `Tests/conftest.py` - Framework-specific fixtures and browser configuration
+6. `Tests/test_e2eFlowHybridFramework.py` - Parametrized tests using POM and JSON data
+7. `Data/credentials.json` - Parametrized test data
+
+**Phase 8: Advanced Features (Playwright/NetworkInterception/)**
+
+Master advanced automation:
+1. `test_injectSessionCookiesIntoBrowserAtRunTime.py` - Session token injection
+2. `test_networkInterception_mockRequest_unauthorizedAccess.py` - Request mocking
+3. `test_networkInterception_mockresponse_noOrders.py` - Response mocking
+4. Learn network interception patterns for testing edge cases
 
 ## 🔗 Test Website
 
