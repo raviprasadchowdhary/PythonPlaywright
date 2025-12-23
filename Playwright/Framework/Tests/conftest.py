@@ -1,4 +1,6 @@
 import pytest
+from pathlib import Path
+from playwright.sync_api import sync_playwright
 
 
 @pytest.fixture(scope="session")
@@ -13,11 +15,19 @@ def pytest_addoption(parser):
         default="chrome",
         help="Browser name to run tests against (chromium, firefox, webkit)",
     )
+    parser.addoption(
+        "--tracing",
+        action="store",
+        default="on",
+        choices=["on", "off"],
+        help="Enable or disable Playwright tracing (on/off)",
+    )
 
 
 @pytest.fixture(scope="function")
 def browser_instance(playwright, request):
     browser_name = request.config.getoption("--browser_name")
+    tracing_enabled = request.config.getoption("--tracing") == "on"
 
     if browser_name == "chrome":
         browser = playwright.chromium.launch(headless=False)
@@ -31,6 +41,23 @@ def browser_instance(playwright, request):
     context = browser.new_context()
     page = context.new_page()
 
+    # Start tracing if enabled
+    if tracing_enabled:
+        context.tracing.start(
+            screenshots=True,
+            snapshots=True,
+            sources=True
+        )
+
     yield page
+
+    # Stop tracing and save if enabled
+    if tracing_enabled:
+        traces_dir = Path(__file__).parent / "traces"
+        traces_dir.mkdir(parents=True, exist_ok=True)
+        trace_path = str(traces_dir / f"trace_{request.node.name}.zip")
+        context.tracing.stop(path=trace_path)
+        print(f"\n✅ Trace saved at: {trace_path}")
+
     context.close()
     browser.close()
