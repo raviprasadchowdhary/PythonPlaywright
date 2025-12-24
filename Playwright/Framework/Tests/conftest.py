@@ -1,6 +1,5 @@
 import pytest
 from pathlib import Path
-from playwright.sync_api import sync_playwright
 
 
 @pytest.fixture(scope="session")
@@ -57,7 +56,7 @@ def browser_instance(playwright, request):
         traces_dir.mkdir(parents=True, exist_ok=True)
         trace_path = str(traces_dir / f"trace_{request.node.name}.zip")
         context.tracing.stop(path=trace_path)
-        print(f"\n✅ Trace saved at: {trace_path}")
+        print(f"\nTrace saved at: {trace_path}")
 
     context.close()
     browser.close()
