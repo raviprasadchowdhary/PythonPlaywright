@@ -1,4 +1,4 @@
-# Python & Pytest Interview Questions & Answers
+# Python & Pytest Questions & Answers
 
 ## 1. What is the difference between a list and a tuple?
 
